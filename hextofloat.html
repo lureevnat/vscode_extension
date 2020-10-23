@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Hex to Float IEEE32</h2>
+
+
+<script>
+
+
+function hexToFloat(str) {
+ var bits = parseInt(str,16);
+ if(bits == parseInt("0x7f800000",16)){
+ 	return "-Inf";
+ }
+ if(bits == parseInt("0xff800000",16)){
+ 	return "+Inf";
+ }
+ if(bits >= parseInt("0x7f800001",16) && bits <= parseInt("0x7fffffff",16)){
+ 	return "NAN";
+ }
+ if(bits >= parseInt("0xff800001",16) && bits <= parseInt("0xffffffff",16)){
+ 	return "NAN";
+ }
+ var s = ((bits >>> 31) == 0) ? 1 : -1;
+ var e = ((bits >>> 23) & 0xff);
+ var m = (e == 0) ? (bits & 0x7fffff) << 1 : (bits & 0x7fffff) | 0x800000;
+ return (s*m*Math.pow(2,e-150)).toString();
+}
+
+document.writeln(hexToFloat("0x40490b43"));
+
+</script>
+
+</body>
+
+
+</html> 
